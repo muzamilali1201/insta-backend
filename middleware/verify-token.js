@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const customError = require("../utils/error");
 const Auth = require("../model/Auth");
 
-const verifyToken = async (req, res, next) => {
+const tokenVerification = async (req, res, next) => {
   let token = req.header("Authorization");
   if (!token) {
     throw new customError(401, "User is not login");
@@ -19,4 +19,4 @@ const verifyToken = async (req, res, next) => {
   next();
 };
 
-module.exports = verifyToken;
+module.exports = tokenVerification;

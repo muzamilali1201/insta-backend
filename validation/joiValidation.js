@@ -10,4 +10,10 @@ const loginValidation = joi.object({
   email: joi.string().required(),
   password: joi.string().required(),
 });
-module.exports = { registerValidation, loginValidation };
+
+const postValidation = joi.object({
+  caption: joi.string().required(),
+  url: joi.string().required(),
+});
+
+module.exports = { registerValidation, loginValidation, postValidation };

@@ -12,20 +12,19 @@ module.exports = mongoose.model(
     media: {
       type: String,
       enum: ["image", "video"],
-      url: String,
+      required: true,
+    },
+    url: {
+      type: String,
       required: true,
     },
     likes: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Auth",
+      type: Number,
+      default: 0,
     },
     comments: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Auth",
-      createdAt: {
-        type: Date,
-        default: Date.now(),
-      },
+      type: Number,
+      default: 0,
     },
     createdAt: {
       type: Date,

@@ -14,13 +14,11 @@ module.exports = mongoose.model(
       type: String,
       default: null,
     },
-    followers: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
-    following: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
-    followersCount: {
+    followers: {
       type: Number,
       default: 0,
     },
-    followingCount: {
+    following: {
       type: Number,
       default: 0,
     },
