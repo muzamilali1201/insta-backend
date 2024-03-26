@@ -1,18 +1,15 @@
 const mongoose = require("mongoose");
 
 module.exports = mongoose.model(
-  "Comment",
+  "Like",
   mongoose.Schema({
-    postId: String,
-    text: String,
+    post: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Post",
+    },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "Auth",
-    },
-    repliedTo: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Auth",
-      default: null,
     },
     createdAt: {
       type: Date,

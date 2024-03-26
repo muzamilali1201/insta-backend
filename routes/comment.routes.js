@@ -3,7 +3,12 @@ const tokenVerification = require("../middleware/verify-token");
 
 const router = require("express").Router();
 
-router.post("/:postId", [tokenVerification], commentController.addComment);
+router.post("/:postId/", [tokenVerification], commentController.addComment);
+router.post(
+  "/:postId/:commentId",
+  [tokenVerification],
+  commentController.addReply
+);
 
 const commentRoutes = router;
 
