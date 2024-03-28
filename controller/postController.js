@@ -9,15 +9,13 @@ const postController = {
     const { userData } = req;
     let mediaType = url.split(".");
     mediaType = mediaType[mediaType.length - 1];
-    const userProfile = await Profile.findOne({
+    const currentUserProfile = await Profile.findOne({
       userId: userData._id.toString(),
     });
-    if (!userProfile) {
+    if (!currentUserProfile) {
       throw new customError(404, "Profile not exist");
     }
-    if (!userProfile) {
-      throw new customError();
-    }
+
     let newPost = await Post.create({
       user: userData._id,
       caption,
@@ -41,6 +39,18 @@ const postController = {
       success: true,
       message: "Posts fetched successfully",
       data: myPosts,
+    });
+  },
+  getSpecificPost: async (req, res) => {
+    const { userId } = req.params;
+    const postExist = await Post.findOne({ user: userId });
+    if (!postExist) {
+      throw new customError(404, "Post not exist");
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Post fetched successfully",
+      data: postExist,
     });
   },
 };

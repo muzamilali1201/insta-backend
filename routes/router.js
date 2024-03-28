@@ -6,6 +6,7 @@ const postRoutes = require("./post.routes");
 const likeRoutes = require("./like.routes");
 const commentRoutes = require("./comment.routes");
 const userRouters = require("./user.routes");
+const feedRoutes = require("./feed.routes");
 
 router.use("/auth", authRoutes);
 router.use("/user", userRouters);
@@ -14,5 +15,6 @@ router.use("/uploads", uploadRoutes);
 router.use("/posts", postRoutes);
 router.use("/likes", likeRoutes);
 router.use("/comments", commentRoutes);
+router.use("/feed", feedRoutes);
 
 module.exports = router;

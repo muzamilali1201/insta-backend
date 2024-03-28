@@ -3,7 +3,16 @@ const customError = require("../utils/error");
 
 const profileController = {
   createProfile: async (req, res) => {
-    const { name, bio, gender, location, interests, contact, file } = req.body;
+    const {
+      name,
+      bio,
+      gender,
+      location,
+      interests,
+      contact,
+      file,
+      profileType,
+    } = req.body;
     const { userData } = req;
     const existingProfile = await Profile.findOne({ userId: userData._id });
     if (existingProfile) {
@@ -17,6 +26,7 @@ const profileController = {
       location,
       interests,
       contact,
+      profileType,
       profilePicture: file ? file : null,
     });
     res.status(200).json({

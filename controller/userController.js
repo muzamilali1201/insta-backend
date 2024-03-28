@@ -1,11 +1,12 @@
-const crypto = require("crypto");
-const emailSender = require("../utils/emailSender");
 const Profile = require("../model/Profile");
 const Auth = require("../model/Auth");
 const bcrypt = require("bcrypt");
 const Follower = require("../model/Follower");
 const Following = require("../model/Following");
+const Token = require("../model/Token");
 const customError = require("../utils/error");
+const crypto = require("crypto");
+const emailSender = require("../utils/emailSender");
 
 const userController = {
   sendPasswordResetLink: async (req, res) => {
@@ -57,10 +58,6 @@ const userController = {
       select: "-password",
     });
 
-    if (userProfile.profile == "private") {
-      throw new customError(401, "User's profile is private");
-    }
-
     res.status(200).json({
       success: true,
       message: "Followers fetched successfully",
@@ -75,10 +72,6 @@ const userController = {
       model: "Auth",
       select: "-password",
     });
-    if (userProfile.profile == "private") {
-      throw new customError(401, "User's profile is private");
-    }
-
     res.status(200).json({
       success: true,
       message: "Followers fetched successfully",
@@ -91,47 +84,47 @@ const userController = {
     if (userId == userData._id.toString()) {
       throw new customError(400, "You can't follow yourself");
     }
-    const Followers = await Follower.findOne({ user: userId });
+    const existingFollower = await Follower.findOne({ user: userId });
 
-    const userProfile = await Profile.findOne({ userId: userId });
-    const myProfile = await Profile.findOne({ userId: userData._id });
-    if (!userProfile) {
+    const targetUserProfile = await Profile.findOne({ userId: userId });
+    const currentUserProfile = await Profile.findOne({ userId: userData._id });
+    if (!targetUserProfile) {
       throw new customError(404, "Profile not exist");
     }
-    if (Followers && Followers.follower == userData._id) {
-      const unFollowUser = await Follower.findOneAndDelete({
+    if (existingFollower && existingFollower.follower == userData._id) {
+      await Follower.findOneAndDelete({
         follower: userData._id,
       });
-      const removeFollowing = await Following.findOneAndDelete({
-        following: userProfile.userId,
+      await Following.findOneAndDelete({
+        following: targetUserProfile.userId,
       });
-      userProfile.followers -= 1;
-      myProfile.following -= 1;
-      await userProfile.save();
-      await myProfile.save();
+      targetUserProfile.followers -= 1;
+      currentUserProfile.following -= 1;
+      await targetUserProfile.save();
+      await currentUserProfile.save();
       return res.status(200).json({
         success: true,
         message: "Unfollowed successfully",
-        data: userProfile,
+        data: targetUserProfile,
       });
     }
 
     const newFollower = await Follower.create({
-      user: userProfile.userId,
+      user: targetUserProfile.userId,
       follower: userData._id,
     });
     const newFollowing = await Following.create({
       user: userData._id,
-      following: userProfile.userId,
+      following: targetUserProfile.userId,
     });
-    userProfile.followers += 1;
-    myProfile.following += 1;
-    await userProfile.save();
-    await myProfile.save();
+    targetUserProfile.followers += 1;
+    currentUserProfile.following += 1;
+    await targetUserProfile.save();
+    await currentUserProfile.save();
     return res.status(200).json({
       success: true,
       message: "Followed successfully",
-      data: userProfile,
+      data: targetUserProfile,
     });
   },
 };

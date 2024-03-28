@@ -14,6 +14,7 @@ module.exports = mongoose.model(
       enum: ["image", "video"],
       required: true,
     },
+
     url: {
       type: String,
       required: true,
@@ -23,6 +24,10 @@ module.exports = mongoose.model(
       default: 0,
     },
     comments: {
+      type: Number,
+      default: 0,
+    },
+    score: {
       type: Number,
       default: 0,
     },

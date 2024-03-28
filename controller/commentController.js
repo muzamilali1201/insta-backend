@@ -8,8 +8,8 @@ const commentController = {
     const { userData } = req;
     const { text } = req.body;
     const { commentId } = req.params;
-    const userPost = await Post.findOne({ _id: postId });
-    if (!userPost) {
+    const targetPost = await Post.findOne({ _id: postId });
+    if (!targetPost) {
       throw new customError(404, "Post not found");
     }
     const newComment = Comment.create({
@@ -18,12 +18,12 @@ const commentController = {
       user: userData._id,
       repliedTo: commentId ? commentId : null,
     });
-    userPost.comments += 1;
-    await userPost.save();
+    targetPost.comments += 1;
+    await targetPost.save();
     return res.status(200).json({
       success: true,
       message: "Commented successfully",
-      data: userPost,
+      data: targetPost,
     });
   },
   addReply: async (req, res) => {
@@ -41,6 +41,7 @@ const commentController = {
       repliedTo: commentId,
     });
     userPost.comments += 1;
+    userPost.score += 1;
     await userPost.save();
     return res.status(200).json({
       success: true,

@@ -14,6 +14,11 @@ module.exports = mongoose.model(
       type: String,
       default: null,
     },
+    profileType: {
+      type: String,
+      default: "public",
+      required: true,
+    },
     followers: {
       type: Number,
       default: 0,
