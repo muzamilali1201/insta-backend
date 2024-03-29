@@ -11,11 +11,11 @@ const checkProfilePrivacy = async (req, res, next) => {
     if (!profileExist) {
       throw new customError(404, "Profile not found");
     }
-    const userFollower = await Follower.findOne({
+    const targetFollower = await Follower.findOne({
       user: userId,
       follower: userData._id,
     });
-    if (profileExist.profileType == "private" && !userFollower) {
+    if (profileExist.profileType == "private" && !targetFollower) {
       throw new customError(403, "User's profile is private");
     }
     next();
@@ -26,15 +26,15 @@ const checkProfilePrivacy = async (req, res, next) => {
     if (!postExist) {
       throw new customError(404, "Post not exist");
     }
-    const userProfile = await Profile.findOne({ user: postExist.userId });
-    if (!userProfile) {
+    const targetProfile = await Profile.findOne({ user: postExist.userId });
+    if (!targetProfile) {
       throw new customError(404, "Profile not exist");
     }
-    const userFollower = await Follower.findOne({
+    const targetFollower = await Follower.findOne({
       user: postExist.user,
       follower: userData._id,
     });
-    if (userProfile.profileType == "private" && !userFollower) {
+    if (targetProfile.profileType == "private" && !targetFollower) {
       throw new customError(403, "User's profile is private");
     }
     next();
