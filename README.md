@@ -1,6 +1,12 @@
-Certainly! Here's the updated documentation with highlighted endpoints:
+## Introduction to Instagram Backend
 
----
+Welcome to the Instagram Backend documentation!
+
+Instagram Backend is a project designed to replicate the essential functionalities of Instagram's backend system. Developed using Node.js and Express.js, it provides a RESTful API for user authentication, profile management, post handling, likes, comments, and more.
+
+This documentation serves as a guide to understanding the project structure, endpoints, and server setup. Whether you're exploring backend development concepts or building a similar social media platform, Instagram Backend offers valuable insights into creating scalable and feature-rich backend systems.
+
+Let's dive in and discover the inner workings of Instagram's backend infrastructure!
 
 ## 📁 Project Structure
 
