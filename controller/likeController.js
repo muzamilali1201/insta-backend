@@ -27,13 +27,13 @@ const likeController = {
         data: targetPost,
       });
     }
-    targetPost.likes += 1;
-    targetPost.score += 1;
-    await targetPost.save();
     const newLike = await Like.create({
       post: targetPost._id,
       user: userData._id,
     });
+    targetPost.likes += 1;
+    targetPost.score += 1;
+    await targetPost.save();
     return res.status(200).json({
       success: true,
       message: "Successfully liked the post",

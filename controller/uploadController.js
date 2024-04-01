@@ -12,7 +12,7 @@ const uploadController = {
     const newFile = await Upload.create({
       userId: userData._id,
       fileName: file.filename,
-      url: url,
+      url,
       type: file.mimetype,
     });
     res.status(200).json({

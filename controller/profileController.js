@@ -10,7 +10,7 @@ const profileController = {
       location,
       interests,
       contact,
-      file,
+      image,
       profileType,
     } = req.body;
     const { userData } = req;
@@ -27,7 +27,7 @@ const profileController = {
       interests,
       contact,
       profileType,
-      profilePicture: file ? file : null,
+      profilePicture: image ? image : null,
     });
     res.status(200).json({
       success: true,
@@ -36,7 +36,7 @@ const profileController = {
     });
   },
   updateProfile: async (req, res) => {
-    const { name, bio, location, interests, gender, contact, file } = req.body;
+    const { name, bio, location, interests, gender, contact, image } = req.body;
     const { userData } = req;
     const updatedProfile = await Profile.findOneAndUpdate(
       { userId: userData._id },
@@ -47,7 +47,7 @@ const profileController = {
         interests: interests,
         gender: gender,
         contact: contact,
-        profilePicture: file ? file : null,
+        profilePicture: image ? image : null,
       },
       {
         new: true,

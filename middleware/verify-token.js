@@ -8,7 +8,7 @@ const tokenVerification = async (req, res, next) => {
     throw new customError(401, "User is not login");
   }
   token = token.split(" ")[1];
-  let decodedToken = await jwt.verify(token, process.env.SECRET_KEY);
+  let decodedToken = jwt.verify(token, process.env.SECRET_KEY);
   let userExist = await Auth.findOne({
     _id: decodedToken._id,
   });

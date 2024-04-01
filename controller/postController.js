@@ -20,7 +20,7 @@ const postController = {
       user: userData._id,
       caption,
       media: mediaType == "jpeg" || mediaType == "png" ? "image" : "video",
-      url: url,
+      url,
     });
     return res.status(200).json({
       success: true,
@@ -34,7 +34,7 @@ const postController = {
     if (!userExist) {
       throw new customError(404, "User not exist");
     }
-    const myPosts = await Post.find({ user: userExist._id }).limit(2);
+    const myPosts = await Post.find({ user: userExist._id });
     return res.status(200).json({
       success: true,
       message: "Posts fetched successfully",

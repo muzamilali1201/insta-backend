@@ -11,7 +11,7 @@ const emailSender = require("../utils/emailSender");
 const userController = {
   sendPasswordResetLink: async (req, res) => {
     const { email } = req.body;
-    const existingUser = await Auth.findOne({ email: email });
+    const existingUser = await Auth.findOne({ email });
     if (!existingUser) {
       throw new customError(404, "User not exist");
     }
@@ -52,7 +52,7 @@ const userController = {
   getFollowersOfUser: async (req, res) => {
     const { userId } = req.params;
 
-    const userProfile = await Profile.findOne({ userId: userId }).populate({
+    const userProfile = await Profile.findOne({ userId }).populate({
       path: "followers",
       model: "Auth",
       select: "-password",
@@ -86,7 +86,7 @@ const userController = {
     }
     const existingFollower = await Follower.findOne({ user: userId });
 
-    const targetUserProfile = await Profile.findOne({ userId: userId });
+    const targetUserProfile = await Profile.findOne({ userId });
     const currentUserProfile = await Profile.findOne({ userId: userData._id });
     if (!targetUserProfile) {
       throw new customError(404, "Profile not exist");

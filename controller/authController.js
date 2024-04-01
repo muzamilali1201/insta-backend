@@ -9,7 +9,7 @@ const authController = {
     if (!username || !email || !password) {
       throw new customError(422, "All fields are required");
     }
-    const existingUser = await Auth.findOne({ email: email });
+    const existingUser = await Auth.findOne({ email });
     const hashedPassword = await bcrypt.hash(password, 10);
     if (existingUser) {
       throw new customError(409, "User already exists");
@@ -29,7 +29,7 @@ const authController = {
   },
   loginUser: async (req, res) => {
     const { email, password } = req.body;
-    let existingUser = await Auth.findOne({ email: email });
+    let existingUser = await Auth.findOne({ email });
     if (!existingUser) {
       throw new customError(404, "User not found!");
     }
@@ -39,7 +39,7 @@ const authController = {
     }
     existingUser = existingUser.toObject();
     delete existingUser.password;
-    const token = await jwt.sign(existingUser, process.env.SECRET_KEY, {
+    const token = jwt.sign(existingUser, process.env.SECRET_KEY, {
       expiresIn: "2d",
     });
     res.status(200).json({
