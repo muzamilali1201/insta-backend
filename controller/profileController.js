@@ -29,7 +29,7 @@ const profileController = {
       profileType,
       profilePicture: image ? image : null,
     });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Profile created successfully",
       data: newProfile,
@@ -53,7 +53,7 @@ const profileController = {
         new: true,
       }
     );
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Profile updated successfully",
       data: updatedProfile,

@@ -21,7 +21,7 @@ const userController = {
     });
     const link = `http://localhost:3000/api/v1/user/password-reset/?token=${newToken.token}`;
     await emailSender(email, existingUser.username, link);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Password reset mail successfully send to the user",
       data: {},
@@ -43,7 +43,7 @@ const userController = {
     user = user.toObject();
     delete user.password;
     await Token.findOneAndDelete({ token: token });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Password has changed successfully",
       data: user,
@@ -58,7 +58,7 @@ const userController = {
       select: "-password",
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Followers fetched successfully",
       data: userProfile.followers,
@@ -72,7 +72,7 @@ const userController = {
       model: "Auth",
       select: "-password",
     });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Followers fetched successfully",
       data: userProfile.following,

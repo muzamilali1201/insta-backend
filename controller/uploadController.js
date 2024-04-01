@@ -15,7 +15,7 @@ const uploadController = {
       url,
       type: file.mimetype,
     });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "File uploaded successfully",
       data: newFile,

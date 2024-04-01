@@ -21,7 +21,7 @@ const authController = {
     });
     newUser = newUser.toObject();
     delete newUser.password;
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "User registered successfully",
       data: newUser,
@@ -42,7 +42,7 @@ const authController = {
     const token = jwt.sign(existingUser, process.env.SECRET_KEY, {
       expiresIn: "2d",
     });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "User login successfully!",
       data: existingUser,
